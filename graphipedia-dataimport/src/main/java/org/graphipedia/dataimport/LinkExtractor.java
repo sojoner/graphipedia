@@ -52,6 +52,7 @@ public class LinkExtractor extends SimpleStaxParser {
     @Override
     protected void handleElement(String element, String value) {
         if ("page".equals(element)) {
+
             if (!title.contains(":")) {
                 try {
                     writePage(title, text);
@@ -59,6 +60,14 @@ public class LinkExtractor extends SimpleStaxParser {
                     throw new RuntimeException(streamException);
                 }
             }
+            if (title.contains("Category:")) {
+                try {
+                    writePage(title, text);
+                } catch (XMLStreamException streamException) {
+                    throw new RuntimeException(streamException);
+                }
+            }
+
             title = null;
             text = null;
         } else if ("title".equals(element)) {
